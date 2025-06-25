@@ -20,13 +20,13 @@
   <style>
     :root {
       --font: "Inter", sans-serif;
-      --grad-start: #6a11cb;
-      --grad-end:   #2575fc;
+      --bg-color: #00503C;
       --card-bg: rgba(255, 255, 255, 0.85);
-      --text: #1f2937;
+      --card-text: #1f2937;      /* dark text for card */
+      --body-text: #ffffff;      /* if you need any body text elsewhere */
       --accent: #fbbf24;
-      --btn-bg: #10b981;
-      --btn-hover: #059669;
+      --btn-bg: #ABE687;
+      --btn-hover: #8abf6a;
       --radius: 12px;
       --sp: 1rem;
     }
@@ -43,9 +43,11 @@
       height: 100%;
       overflow: hidden;
       font-family: var(--font);
+      background-color: var(--bg-color);
+      color: var(--body-text);
     }
 
-    /* full-screen wrapper centers card & holds background */
+    /* full-screen wrapper centers card */
     .wrapper {
       position: relative;
       width: 100vw;
@@ -53,13 +55,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
-      background-size: 200% 200%;
-      animation: bgShift 10s ease-in-out infinite alternate;
-      color: var(--text);
-    }
-    @keyframes bgShift {
-      to { background-position: 75% 75%; }
     }
 
     /* the card itself */
@@ -67,6 +62,7 @@
       position: relative;
       z-index: 2;
       background: var(--card-bg);
+      color: var(--card-text);           /* ensure all card text is dark */
       padding: calc(var(--sp) * 2);
       border-radius: var(--radius);
       box-shadow: 0 8px 24px rgba(0,0,0,0.1);
@@ -110,7 +106,7 @@
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
       font-weight: 600;
-      color: #fff;
+      color: #000;
       background-color: var(--btn-bg);
       border: none;
       border-radius: var(--radius);
@@ -148,7 +144,7 @@
       <p>We’re busy cooking up something awesome. Thanks for stopping by!</p>
       <div id="countdown">⏳ Launching in …</div>
       <a href="https://nectaro.ca" class="btn" id="shopBtn">
-        For Now, Click Here Visit Our Old Website :)
+       Click Here to Visit Our Old Website :)
       </a>
     </div>
   </div>
@@ -163,7 +159,7 @@
         return Math.random() * (max - min) + min;
       }
 
-      // create & animate gingers inside the wrapper
+      // create & animate gingers
       for (let i = 0; i < NUM; i++) {
         const g = document.createElement("span");
         g.className = "ginger";
