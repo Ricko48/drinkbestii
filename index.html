@@ -221,7 +221,7 @@
       }
 
       // Countdown with seconds
-      const targetDate = new Date("2025-09-01T09:00:00Z");
+      const targetDate = new Date("2025-07-01T00:00:00Z");
       const cd = document.getElementById("countdown");
       function updateCountdown() {
         const now = new Date(), diff = targetDate - now;
@@ -233,7 +233,7 @@
               h = Math.floor(diff / 36e5) % 24,
               m = Math.floor(diff / 6e4) % 60,
               s = Math.floor(diff / 1000) % 60;
-        cd.textContent = `⏳ ${d}d ${h}h ${m}m ${s}s to launch`;
+        cd.textContent = `⏳ ${d}d ${h}h ${m}m ${s}s To Launch`;
       }
       updateCountdown();
       setInterval(updateCountdown, 1000);
