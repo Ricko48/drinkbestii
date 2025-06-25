@@ -12,10 +12,9 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
     rel="stylesheet"
   />
-
-  <!-- Anime.js for animations (no defer!) -->
+  <!-- Anime.js -->
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
-  <!-- Vanilla Tilt for subtle card tilt (no defer!) -->
+  <!-- VanillaTilt -->
   <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
 
   <style>
@@ -32,32 +31,38 @@
       --sp: 1rem;
     }
 
+    /* reset & box-sizing */
     *, *::before, *::after {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     html, body {
+      width: 100%;
       height: 100%;
+      overflow: hidden;
       font-family: var(--font);
     }
 
-    body {
+    /* full-screen wrapper centers card & holds background */
+    .wrapper {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
-      overflow: hidden;
+      justify-content: center;
       background: linear-gradient(135deg, var(--grad-start), var(--grad-end));
       background-size: 200% 200%;
       animation: bgShift 10s ease-in-out infinite alternate;
       color: var(--text);
-      padding: var(--sp);
     }
     @keyframes bgShift {
       to { background-position: 75% 75%; }
     }
 
+    /* the card itself */
     .card {
       position: relative;
       z-index: 2;
@@ -66,8 +71,8 @@
       border-radius: var(--radius);
       box-shadow: 0 8px 24px rgba(0,0,0,0.1);
       text-align: center;
+      width: 90%;
       max-width: 360px;
-      width: 100%;
       backdrop-filter: blur(3px);
     }
 
@@ -118,11 +123,11 @@
       transform: translateY(-2px);
     }
 
+    /* floating gingers */
     .ginger {
       position: absolute;
       font-size: clamp(1.5rem, 4vw, 3rem);
       opacity: 0.8;
-      pointer-events: auto;
       cursor: pointer;
       user-select: none;
       will-change: transform;
@@ -136,29 +141,34 @@
   </style>
 </head>
 <body>
-  <div class="card" data-tilt data-tilt-max="10" data-tilt-speed="500">
-    <div class="icon">🚧</div>
-    <h1>Site Under Construction</h1>
-    <p>We’re busy cooking up something awesome. Thanks for stopping by!</p>
-    <div id="countdown">⏳ Launching in …</div>
-    <a href="https://nectaro.ca" class="btn" id="shopBtn">For Now, Click Here Visit Our Old Website :)</a>
+  <div class="wrapper">
+    <div class="card" data-tilt data-tilt-max="10" data-tilt-speed="500">
+      <div class="icon">🚧</div>
+      <h1>Site Under Construction</h1>
+      <p>We’re busy cooking up something awesome. Thanks for stopping by!</p>
+      <div id="countdown">⏳ Launching in …</div>
+      <a href="https://nectaro.ca" class="btn" id="shopBtn">
+        For Now, Click Here Visit Our Old Website :)
+      </a>
+    </div>
   </div>
 
   <script>
     window.addEventListener('load', () => {
       const GINGER = "🫚";
       const NUM = 30;
+      const wrapper = document.querySelector('.wrapper');
 
       function rand(min, max) {
         return Math.random() * (max - min) + min;
       }
 
-      // Create & animate gingers
+      // create & animate gingers inside the wrapper
       for (let i = 0; i < NUM; i++) {
         const g = document.createElement("span");
         g.className = "ginger";
         g.textContent = GINGER;
-        document.body.appendChild(g);
+        wrapper.appendChild(g);
         place(g);
         floatIt(g);
         g.addEventListener("click", () => crack(g));
@@ -203,10 +213,10 @@
               boom.textContent = "💥";
               boom.style.position = "fixed";
               boom.style.left = (rect.left + rect.width/2) + "px";
-              boom.style.top  = (rect.top  + rect.height/2) + "px";
+              boom.style.top  = (rect.top + rect.height/2) + "px";
+              boom.style.transform = "translate(-50%, -50%)";
               boom.style.fontSize = "2rem";
               boom.style.zIndex = 9999;
-              boom.style.transform = "translate(-50%, -50%)";
               document.body.appendChild(boom);
               anime({
                 targets: boom,
@@ -238,7 +248,7 @@
       updateCountdown();
       setInterval(updateCountdown, 1000);
 
-      // Confetti & redirect on button click
+      // Confetti & redirect
       const btn = document.getElementById("shopBtn");
       btn.addEventListener("click", e => {
         e.preventDefault();
@@ -270,7 +280,7 @@
         setTimeout(cb, 800);
       }
 
-      // Initialize VanillaTilt
+      // VanillaTilt init
       VanillaTilt.init(document.querySelectorAll('.card'), {
         max: 10,
         speed: 500,
